@@ -1,0 +1,4 @@
+% comment
+_transition_time; 500ms;
+cmd_1; % comment % 0 123 +123 -123 -1.2E3;
+cmd_2;

@@ -1,129 +1,75 @@
+#include <stdlib.h>
+#include <tree_sitter/parser.h>
+
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tree_sitter/parser.h>
 
-enum TokenType {
-  TRIVIA_RAW_FI,
-  TRIVIA_RAW_ENV_COMMENT,
-  TRIVIA_RAW_ENV_VERBATIM,
-  TRIVIA_RAW_ENV_LISTING,
-  TRIVIA_RAW_ENV_MINTED,
-  TRIVIA_RAW_ENV_PYCODE,
-  TRIVIA_RAW_ENV_SAGESILENT,
-  TRIVIA_RAW_ENV_SAGEBLOCK,
-};
+void debug(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
 
-static bool find_verbatim(TSLexer *lexer, const char *keyword,
-                          bool is_command_name) {
-  bool has_marked = false;
-  while (true) {
-    if (lexer->eof(lexer)) {
-      break;
-    }
+  char buffer[1000];
+  vsnprintf(buffer, sizeof(buffer), format, args);
 
-    bool advanced = false;
-    bool failed = false;
-    for (size_t i = 0; keyword[i]; i++) {
-      if (lexer->eof(lexer)) {
-        return has_marked;
-      }
+  va_end(args);
 
-      if (lexer->lookahead != keyword[i]) {
-        failed = true;
+  char command[1100];
+  snprintf(command, sizeof(command), ">&2 echo '%s'", buffer);
+  system(command);
+}
+
+enum TokenType { COMMENT, EOL };
+
+void *tree_sitter_eqidio_external_scanner_create() { return malloc(1); }
+
+void tree_sitter_eqidio_external_scanner_destroy(void *payload) {
+  free(payload);
+}
+
+unsigned tree_sitter_eqidio_external_scanner_serialize(void *payload,
+                                                       char *buffer) {
+  buffer[0] = ((char*) payload)[0];
+  return 1;
+}
+
+void tree_sitter_eqidio_external_scanner_deserialize(void *payload,
+                                                     const char *buffer,
+                                                     unsigned length) {
+  ((char *)payload)[0] = length > 0 ? buffer[0] : false;
+}
+
+void ladvance(TSLexer *lexer) { lexer->advance(lexer, false); }
+
+bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
+                                              const bool *valid_symbols) {
+  if (valid_symbols[COMMENT]) {
+    if (lexer->lookahead != '%')
+      return false;
+    ladvance(lexer);
+    if (lexer->lookahead == '%')
+      return false;
+    for (;;) {
+      if (lexer->eof(lexer) || lexer->lookahead == '\r' ||
+          lexer->lookahead == '\n')
         break;
-      }
-
-      lexer->advance(lexer, false);
-      advanced = true;
-    }
-
-    if (failed && !advanced) {
-      lexer->advance(lexer, false);
-      lexer->mark_end(lexer);
-      has_marked = true;
-      continue;
-    }
-
-    if (!failed) {
-      if (is_command_name) {
-        if (lexer->eof(lexer)) {
-          return has_marked;
-        }
-
-        char c = lexer->lookahead;
-        switch (c) {
-        case ':':
-        case '_':
-        case '@':
-          failed = true;
-          break;
-        default:
-          failed = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-          break;
-        }
-
-        if (failed) {
-          lexer->mark_end(lexer);
-          has_marked = true;
+      if (lexer->lookahead == '%') {
+        ladvance(lexer);
+        if (lexer->lookahead == '%') {
+          ladvance(lexer);
           continue;
         }
+        break;
       }
-
-      return has_marked;
+      ladvance(lexer);
     }
+    lexer->result_symbol = COMMENT;
+    return true;
   }
-
-  return has_marked;
-}
-
-void *tree_sitter_latex_external_scanner_create() { return NULL; }
-
-void tree_sitter_latex_external_scanner_destroy(void *payload) {}
-
-unsigned tree_sitter_latex_external_scanner_serialize(void *payload,
-                                                      char *buffer) {
-  return 0;
-}
-
-void tree_sitter_latex_external_scanner_deserialize(void *payload,
-                                                    const char *buffer,
-                                                    unsigned length) {}
-
-bool tree_sitter_latex_external_scanner_scan(void *payload, TSLexer *lexer,
-                                             const bool *valid_symbols) {
-  bool found = false;
-  TSSymbol type = 0xFFFF;
-  for (int i = 0; i <= TRIVIA_RAW_ENV_SAGEBLOCK; i++) {
-    if (valid_symbols[i]) {
-      if (found) {
-        return false;
-      } else {
-        found = true;
-        type = i;
-      }
-    }
+  if (valid_symbols[EOL]) {
+      return false;
   }
-
-  lexer->result_symbol = type;
-  switch (type) {
-  case TRIVIA_RAW_FI:
-    return find_verbatim(lexer, "\\fi", true);
-  case TRIVIA_RAW_ENV_COMMENT:
-    return find_verbatim(lexer, "\\end{comment}", false);
-  case TRIVIA_RAW_ENV_VERBATIM:
-    return find_verbatim(lexer, "\\end{verbatim}", false);
-  case TRIVIA_RAW_ENV_LISTING:
-    return find_verbatim(lexer, "\\end{lstlisting}", false);
-  case TRIVIA_RAW_ENV_MINTED:
-    return find_verbatim(lexer, "\\end{minted}", false);
-  case TRIVIA_RAW_ENV_PYCODE:
-    return find_verbatim(lexer, "\\end{pycode}", false);
-  case TRIVIA_RAW_ENV_SAGESILENT:
-    return find_verbatim(lexer, "\\end{sagesilent}", false);
-  case TRIVIA_RAW_ENV_SAGEBLOCK:
-    return find_verbatim(lexer, "\\end{sageblock}", false);
-  }
-
-  return false;
 }
