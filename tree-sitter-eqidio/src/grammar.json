@@ -18,12 +18,16 @@
         {
           "type": "SYMBOL",
           "name": "environment_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "latex"
         }
       ]
     },
     "_whitespace": {
       "type": "PATTERN",
-      "value": "\\s+"
+      "value": "[ \\t]+"
     },
     "identifier": {
       "type": "PATTERN",
@@ -59,111 +63,28 @@
       }
     },
     "duration": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "minutes",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "natural"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "min"
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "seconds",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "natural"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "s"
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "milliseconds",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "natural"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "ms"
-                }
-              ]
-            }
-          ]
-        }
-      }
+      "type": "PATTERN",
+      "value": "(((\\d+m)|(\\d+s)|(\\d+ms))_?)+"
     },
     "variable": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "*"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "declaration",
-                "content": {
-                  "type": "STRING",
-                  "value": "="
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "FIELD",
-            "name": "name",
-            "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
-            }
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
     },
     "command": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "id",
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
@@ -173,28 +94,41 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "FIELD",
-              "name": "time",
-              "content": {
-                "type": "SYMBOL",
-                "name": "duration"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "controller",
-              "content": {
-                "type": "SYMBOL",
-                "name": "variable"
-              }
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "duration",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "duration"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "runtime",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "variable"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -206,32 +140,94 @@
           "value": ";"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "argument",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_argument"
+            }
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "argument",
-                  "content": {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_argument"
-                    }
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "eol"
+            }
+          ]
+        }
+      ]
+    },
+    "environment_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "_"
+        },
+        {
+          "type": "FIELD",
+          "name": "id",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "argument",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_argument"
+            }
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "eol"
+            }
+          ]
+        }
+      ]
+    },
+    "latex": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$$"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[^$]+"
             },
             {
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": "$$"
         }
       ]
     },
@@ -263,58 +259,12 @@
           "name": "variable"
         }
       ]
-    },
-    "environment_command": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "_"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "argument",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_argument"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
     }
   },
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "_newline"
     },
     {
       "type": "SYMBOL",
@@ -327,6 +277,14 @@
     {
       "type": "SYMBOL",
       "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "eol"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_newline"
     }
   ],
   "inline": [],

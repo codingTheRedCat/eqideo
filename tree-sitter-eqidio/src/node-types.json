@@ -33,17 +33,17 @@
           }
         ]
       },
-      "controller": {
+      "duration": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "variable",
+            "type": "duration",
             "named": true
           }
         ]
       },
-      "name": {
+      "id": {
         "multiple": false,
         "required": true,
         "types": [
@@ -53,52 +53,26 @@
           }
         ]
       },
-      "time": {
+      "runtime": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "duration",
+            "type": "variable",
             "named": true
           }
         ]
       }
-    }
-  },
-  {
-    "type": "duration",
-    "named": true,
-    "fields": {
-      "milliseconds": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "natural",
-            "named": true
-          }
-        ]
-      },
-      "minutes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "natural",
-            "named": true
-          }
-        ]
-      },
-      "seconds": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "natural",
-            "named": true
-          }
-        ]
-      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "eol",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -121,7 +95,7 @@
     "named": true,
     "fields": {
       "argument": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -150,7 +124,7 @@
           }
         ]
       },
-      "name": {
+      "id": {
         "multiple": false,
         "required": true,
         "types": [
@@ -160,7 +134,22 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "eol",
+          "named": true
+        }
+      ]
     }
+  },
+  {
+    "type": "latex",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -177,6 +166,10 @@
         {
           "type": "environment_command",
           "named": true
+        },
+        {
+          "type": "latex",
+          "named": true
         }
       ]
     }
@@ -184,28 +177,21 @@
   {
     "type": "variable",
     "named": true,
-    "fields": {
-      "declaration": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "=",
-            "named": false
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
+  },
+  {
+    "type": "$$",
+    "named": false
   },
   {
     "type": "*",
@@ -213,10 +199,6 @@
   },
   {
     "type": ";",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
@@ -228,7 +210,11 @@
     "named": false
   },
   {
-    "type": "comment",
+    "type": "duration",
+    "named": true
+  },
+  {
+    "type": "eol",
     "named": true
   },
   {
@@ -244,19 +230,7 @@
     "named": true
   },
   {
-    "type": "min",
-    "named": false
-  },
-  {
-    "type": "ms",
-    "named": false
-  },
-  {
     "type": "natural",
     "named": true
-  },
-  {
-    "type": "s",
-    "named": false
   }
 ]

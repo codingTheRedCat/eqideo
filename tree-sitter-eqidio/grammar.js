@@ -2,44 +2,46 @@ module.exports = grammar({
     name: 'eqidio',
 
     externals: $ => [
-        $.comment
+        $.comment,
+        $.eol,
+        $._newline
     ],
 
     rules: {
         source_file: $ => repeat($._statement),
-        _statement: $ => choice($.command, $.environment_command),
+        _statement: $ => choice($.command, $.environment_command, $.latex),
 
-        _whitespace: $ => /\s+/,
+        _whitespace: $ => /[ \t]+/,
         identifier: $ => /[a-zA-Z][a-zA-Z0-9_]*/,
         natural: $ => /\+?[0-9]+/,
         integer: $ => /-[0-9]+/,
         floating_point: $ => /[-+]?[0-9]*(\.?[0-9]+|([eE][-+]?[0-9]+)){1,2}/,
 
         enum_value: $ => prec.right(seq("@", $.identifier)),
-        duration: $ => prec.right(repeat1(choice(
-            seq(field("minutes", $.natural), "min"),
-            seq(field("seconds", $.natural), "s"),
-            seq(field("milliseconds", $.natural), "ms"),
-        ))),
-        variable: $ => prec.right(seq("*", optional(field("declaration", "=")), field("name", $.identifier))),
+        duration: $ => /(((\d+m)|(\d+s)|(\d+ms))_?)+/,
+        variable: $ => seq("*", $.identifier),
 
         command: $ => seq(
-            field("name", $.identifier),
-            optional(field("time", $.duration)),
-            optional(field("controller", $.variable)),
+            field("id", $.identifier),
+            optional(seq(
+                optional(field("duration", $.duration)),
+                optional(field("runtime", $.variable)),
+            )),
             ";",
-            optional(seq(field("argument", repeat($._argument)), ";"))
+            repeat(field("argument", $._argument)),
+            choice(";", $.eol),
         ),
-        _argument: $ => choice($.natural, $.integer, $.floating_point, $.enum_value, $.duration, $.variable),
-
         environment_command: $ => seq(
             "_",
-            field("name", $.identifier),
-            ";",
-            optional(seq(field("argument", $._argument), ";"))
+            field("id", $.identifier),
+            repeat(field("argument", $._argument)),
+            choice(";", $.eol),
         ),
+
+        latex: $ => seq("$$", optional(/[^$]+/), "$$"),
+        _argument: $ => choice($.natural, $.integer, $.floating_point, $.enum_value, $.duration, $.variable),
     },
 
-    extras: $ => [$.comment, $._whitespace],
+    extras: $ => [$._newline, $._whitespace],
 });
 

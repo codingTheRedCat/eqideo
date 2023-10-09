@@ -22,30 +22,47 @@ void debug(const char *format, ...) {
   system(command);
 }
 
-enum TokenType { COMMENT, EOL };
+enum TokenType { COMMENT, EOL, NEWLINE };
 
-void *tree_sitter_eqidio_external_scanner_create() { return malloc(1); }
+void *tree_sitter_eqidio_external_scanner_create() { return NULL; }
 
 void tree_sitter_eqidio_external_scanner_destroy(void *payload) {
-  free(payload);
 }
 
 unsigned tree_sitter_eqidio_external_scanner_serialize(void *payload,
                                                        char *buffer) {
-  buffer[0] = ((char*) payload)[0];
-  return 1;
+  return 0;
 }
 
 void tree_sitter_eqidio_external_scanner_deserialize(void *payload,
                                                      const char *buffer,
-                                                     unsigned length) {
-  ((char *)payload)[0] = length > 0 ? buffer[0] : false;
-}
+                                                     unsigned length) {}
 
 void ladvance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
                                               const bool *valid_symbols) {
+
+  if (valid_symbols[EOL])
+    if (valid_symbols[EOL] && (lexer->eof(lexer) || lexer->lookahead == '\r' ||
+                               lexer->lookahead == '\n')) {
+      lexer->result_symbol = EOL;
+      return true;
+    }
+  if (valid_symbols[NEWLINE]) {
+    if (lexer->lookahead == '\r') {
+      ladvance(lexer);
+      if (lexer->lookahead == '\n')
+        ladvance(lexer);
+      lexer->result_symbol = NEWLINE;
+      return true;
+    }
+    if (lexer->lookahead == '\n') {
+      ladvance(lexer);
+      lexer->result_symbol = NEWLINE;
+      return true;
+    }
+  }
   if (valid_symbols[COMMENT]) {
     if (lexer->lookahead != '%')
       return false;
@@ -69,7 +86,5 @@ bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
     lexer->result_symbol = COMMENT;
     return true;
   }
-  if (valid_symbols[EOL]) {
-      return false;
-  }
+  return false;
 }
