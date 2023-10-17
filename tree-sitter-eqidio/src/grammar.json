@@ -232,7 +232,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_eqtex_expression"
+          "name": "_eqtex_statement"
         },
         {
           "type": "STRING",
@@ -271,6 +271,19 @@
               "value": "}"
             }
           ]
+        }
+      ]
+    },
+    "_eqtex_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_equasion"
         }
       ]
     },
@@ -443,6 +456,23 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "eqtex_equasion": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
         }
       ]
     },

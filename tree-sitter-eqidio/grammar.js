@@ -39,7 +39,7 @@ module.exports = grammar({
             choice(";", $.eol),
         ),
 
-        eqtex: $ => seq("$$", $._eqtex_expression, "$$"),
+        eqtex: $ => seq("$$", $._eqtex_statement, "$$"),
         eqtex_char: $ => /[A-Za-z0-9]/,
         eqtex_text: $ => /[A-Za-z0-9]+/,
         _eqtex_script_content: $ => choice(
@@ -47,6 +47,10 @@ module.exports = grammar({
             seq("{", $.eqtex_text, "}"),
         ),
 
+        _eqtex_statement: $ => choice(
+            $._eqtex_expression,
+            $.eqtex_equasion,
+        ),
         _eqtex_expression: $ => choice(
             $._number,
             $.eqtex_sum,
@@ -68,6 +72,7 @@ module.exports = grammar({
             optional(seq("_", field("subscript", $._eqtex_script_content))),
             optional(seq("^", field("superscript", $._eqtex_script_content))),
         ),
+        eqtex_equasion: $ => seq($._eqtex_expression, "=", $._eqtex_expression),
 
         _argument: $ => choice($.natural, $.integer, $.floating_point, $.enum_value, $.duration, $.variable),
     },

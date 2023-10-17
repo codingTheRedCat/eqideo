@@ -155,6 +155,45 @@
       "required": true,
       "types": [
         {
+          "type": "eqtex_equasion",
+          "named": true
+        },
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_sum",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_equasion",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "eqtex_product",
           "named": true
         },
@@ -351,6 +390,10 @@
   },
   {
     "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
     "named": false
   },
   {
