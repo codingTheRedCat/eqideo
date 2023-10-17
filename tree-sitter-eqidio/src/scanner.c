@@ -24,31 +24,43 @@ void debug(const char *format, ...) {
 
 enum TokenType { COMMENT, EOL, NEWLINE };
 
-void *tree_sitter_eqidio_external_scanner_create() { return NULL; }
+void *tree_sitter_eqidio_external_scanner_create() { return malloc(1); }
 
 void tree_sitter_eqidio_external_scanner_destroy(void *payload) {
+  free(payload);
 }
 
 unsigned tree_sitter_eqidio_external_scanner_serialize(void *payload,
                                                        char *buffer) {
-  return 0;
+    bool *scanner = (bool *)payload;
+  buffer[0] = *scanner;
+  return 1;
 }
 
 void tree_sitter_eqidio_external_scanner_deserialize(void *payload,
                                                      const char *buffer,
-                                                     unsigned length) {}
+                                                     unsigned length) {
+  bool *scanner = (bool *)payload;
+  if (length == 0) {
+    *scanner = false;
+    return;
+  }
+  *scanner = buffer[0];
+}
 
 void ladvance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
                                               const bool *valid_symbols) {
-
-  if (valid_symbols[EOL])
-    if (valid_symbols[EOL] && (lexer->eof(lexer) || lexer->lookahead == '\r' ||
-                               lexer->lookahead == '\n')) {
-      lexer->result_symbol = EOL;
-      return true;
-    }
+  bool *scanner = (bool *)payload;
+    debug("c %d, p %d", *scanner);
+  if (valid_symbols[EOL] && !*scanner &&
+      (lexer->eof(lexer) || lexer->lookahead == '\r' ||
+       lexer->lookahead == '\n')) {
+    *scanner = true;
+    lexer->result_symbol = EOL;
+    return true;
+  }
   if (valid_symbols[NEWLINE]) {
     if (lexer->lookahead == '\r') {
       ladvance(lexer);

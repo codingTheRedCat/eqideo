@@ -21,7 +21,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "latex"
+          "name": "eqtex"
         }
       ]
     },
@@ -44,6 +44,23 @@
     "floating_point": {
       "type": "PATTERN",
       "value": "[-+]?[0-9]*(\\.?[0-9]+|([eE][-+]?[0-9]+)){1,2}"
+    },
+    "_number": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "natural"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "floating_point"
+        }
+      ]
     },
     "enum_value": {
       "type": "PREC_RIGHT",
@@ -206,7 +223,7 @@
         }
       ]
     },
-    "latex": {
+    "eqtex": {
       "type": "SEQ",
       "members": [
         {
@@ -214,11 +231,147 @@
           "value": "$$"
         },
         {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "$$"
+        }
+      ]
+    },
+    "eqtex_char": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9]"
+    },
+    "eqtex_text": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9]+"
+    },
+    "_eqtex_script_content": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_char"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "eqtex_text"
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        }
+      ]
+    },
+    "_eqtex_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_sum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_product"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_symbol"
+        }
+      ]
+    },
+    "_eqtex_factor": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_symbol"
+        }
+      ]
+    },
+    "_eqtex_component": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_product"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_symbol"
+        }
+      ]
+    },
+    "eqtex_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_component"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "+"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_eqtex_component"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "eqtex_product": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_factor"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "PATTERN",
-              "value": "[^$]+"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\times"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -226,8 +379,70 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "$$"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_eqtex_factor"
+          }
+        }
+      ]
+    },
+    "eqtex_symbol": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_text"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "_"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "subscript",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_eqtex_script_content"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "^"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "superscript",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_eqtex_script_content"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

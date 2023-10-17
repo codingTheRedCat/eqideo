@@ -147,9 +147,157 @@
     }
   },
   {
-    "type": "latex",
+    "type": "eqtex",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_sum",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_product",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_sum",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_symbol",
+    "named": true,
+    "fields": {
+      "subscript": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "eqtex_char",
+            "named": true
+          },
+          {
+            "type": "eqtex_text",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      },
+      "superscript": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "eqtex_char",
+            "named": true
+          },
+          {
+            "type": "eqtex_text",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_text",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "source_file",
@@ -168,7 +316,7 @@
           "named": true
         },
         {
-          "type": "latex",
+          "type": "eqtex",
           "named": true
         }
       ]
@@ -198,11 +346,23 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
   {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "\\times",
+    "named": false
+  },
+  {
+    "type": "^",
     "named": false
   },
   {
@@ -215,6 +375,14 @@
   },
   {
     "type": "eol",
+    "named": true
+  },
+  {
+    "type": "eqtex_char",
+    "named": true
+  },
+  {
+    "type": "eqtex_text",
     "named": true
   },
   {
@@ -232,5 +400,13 @@
   {
     "type": "natural",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]
