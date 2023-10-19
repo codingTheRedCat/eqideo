@@ -1,4 +1,4 @@
-# EqiodoLang
+# EqideoLang
 ## Data model
 The Eqiodo data model consists of states and transitions between states.
 |MODEL|

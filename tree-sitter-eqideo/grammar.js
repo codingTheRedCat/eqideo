@@ -1,5 +1,5 @@
 module.exports = grammar({
-    name: 'eqidio',
+    name: 'eqideo',
 
     externals: $ => [
         $.comment,
