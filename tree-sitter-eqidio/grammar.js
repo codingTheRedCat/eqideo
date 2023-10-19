@@ -41,11 +41,7 @@ module.exports = grammar({
 
         eqtex: $ => seq("$$", $._eqtex_statement, "$$"),
         eqtex_char: $ => /[A-Za-z0-9]/,
-        eqtex_text: $ => /[A-Za-z0-9]+/,
-        _eqtex_script_content: $ => choice(
-            $.eqtex_char,
-            seq("{", $.eqtex_text, "}"),
-        ),
+        eqtex_text: $ => /[A-Za-z]+/,
 
         _eqtex_statement: $ => choice(
             $._eqtex_expression,
@@ -55,6 +51,11 @@ module.exports = grammar({
             $._number,
             $.eqtex_sum,
             $.eqtex_product,
+            $.eqtex_symbol,
+            $.eqtex_power
+        ),
+        _eqtex_term: $ => choice(
+            $._number,
             $.eqtex_symbol
         ),
         _eqtex_factor: $ => choice(
@@ -66,11 +67,25 @@ module.exports = grammar({
             $.eqtex_product,
             $.eqtex_symbol
         ),
-        eqtex_sum: $ => seq($._eqtex_component, repeat1(seq("+", $._eqtex_component))),
+        eqtex_sum: $ => seq(
+            choice(
+                seq("-", field("opposite", $._eqtex_component)),
+                $._eqtex_component
+            ), repeat1(choice(
+                seq("-", field("opposite", "-", $._eqtex_component)),
+                seq("+", $._eqtex_component)
+            ))),
+        _term_or_wrapped: $ => choice(
+            $._eqtex_term,
+            seq("{", $._eqtex_expression, "}"),
+        ),
         eqtex_product: $ => seq($._eqtex_factor, optional(choice("*", "\\times")), repeat1($._eqtex_factor)),
+        eqtex_power: $ => prec.right(seq($._term_or_wrapped, "^", field("exponent", $._term_or_wrapped))),
         eqtex_symbol: $ => seq($.eqtex_text,
-            optional(seq("_", field("subscript", $._eqtex_script_content))),
-            optional(seq("^", field("superscript", $._eqtex_script_content))),
+            optional(seq("_", field("subscript", choice(
+            $.eqtex_char,
+            seq("{", $.eqtex_text, "}"),
+        )))),
         ),
         eqtex_equasion: $ => seq($._eqtex_expression, "=", $._eqtex_expression),
 

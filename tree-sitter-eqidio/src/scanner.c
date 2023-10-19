@@ -53,7 +53,6 @@ void ladvance(TSLexer *lexer) { lexer->advance(lexer, false); }
 bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
                                               const bool *valid_symbols) {
   bool *scanner = (bool *)payload;
-    debug("c %d, p %d", *scanner);
   if (valid_symbols[EOL] && !*scanner &&
       (lexer->eof(lexer) || lexer->lookahead == '\r' ||
        lexer->lookahead == '\n')) {
