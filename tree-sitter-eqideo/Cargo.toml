@@ -1,10 +1,10 @@
 [package]
-name = "tree-sitter-latex"
-description = "latex grammar for the tree-sitter parsing library"
+name = "tree-sitter-eqideo"
+description = "eqideo grammar for the tree-sitter parsing library"
 version = "0.0.1"
-keywords = ["incremental", "parsing", "latex"]
+keywords = ["incremental", "parsing", "eqideo"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-latex"
+repository = "https://github.com/tree-sitter/tree-sitter-eqideo"
 edition = "2018"
 license = "MIT"
 

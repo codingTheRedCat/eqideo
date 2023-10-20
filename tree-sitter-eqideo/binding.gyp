@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_latex_binding",
+      "target_name": "tree_sitter_eqideo_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"
