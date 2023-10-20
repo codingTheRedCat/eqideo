@@ -232,7 +232,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_eqtex_statement"
+          "name": "_eqtex_expression"
         },
         {
           "type": "STRING",
@@ -247,244 +247,6 @@
     "eqtex_text": {
       "type": "PATTERN",
       "value": "[A-Za-z]+"
-    },
-    "_eqtex_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_equasion"
-        }
-      ]
-    },
-    "_eqtex_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_sum"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_product"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_power"
-        }
-      ]
-    },
-    "_eqtex_term": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_symbol"
-        }
-      ]
-    },
-    "_eqtex_factor": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_symbol"
-        }
-      ]
-    },
-    "_eqtex_component": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_product"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "eqtex_symbol"
-        }
-      ]
-    },
-    "eqtex_sum": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "-"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "opposite",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_eqtex_component"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_eqtex_component"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "-"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "opposite",
-                    "content": {
-                      "type": "STRING",
-                      "value": "-"
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "+"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_eqtex_component"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "_term_or_wrapped": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_term"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "{"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_eqtex_expression"
-            },
-            {
-              "type": "STRING",
-              "value": "}"
-            }
-          ]
-        }
-      ]
-    },
-    "eqtex_product": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_factor"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\times"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_eqtex_factor"
-          }
-        }
-      ]
-    },
-    "eqtex_power": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_term_or_wrapped"
-          },
-          {
-            "type": "STRING",
-            "value": "^"
-          },
-          {
-            "type": "FIELD",
-            "name": "exponent",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_term_or_wrapped"
-            }
-          }
-        ]
-      }
     },
     "eqtex_symbol": {
       "type": "SEQ",
@@ -542,22 +304,338 @@
         }
       ]
     },
-    "eqtex_equasion": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_expression"
-        }
-      ]
+    "_eqtex_term": {
+      "type": "PREC",
+      "value": "term",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_number"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_symbol"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_brackets"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_power"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_fraction"
+          }
+        ]
+      }
+    },
+    "_eqtex_component": {
+      "type": "PREC",
+      "value": "component",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_term"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_product"
+          }
+        ]
+      }
+    },
+    "_eqtex_expression": {
+      "type": "PREC",
+      "value": "expression",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_component"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_wrapped"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_sum"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "eqtex_equations"
+          }
+        ]
+      }
+    },
+    "eqtex_brackets": {
+      "type": "PREC",
+      "value": "brackets",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_eqtex_expression"
+              },
+              {
+                "type": "STRING",
+                "value": ")"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "["
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_eqtex_expression"
+              },
+              {
+                "type": "STRING",
+                "value": "]"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_eqtex_wrapped": {
+      "type": "PREC",
+      "value": "wrapped",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
+    },
+    "eqtex_sum": {
+      "type": "PREC",
+      "value": "sum",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "-"
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "opposite",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_eqtex_component"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_eqtex_component"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "-"
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "opposite",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_eqtex_component"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "+"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_eqtex_component"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "_eqtex_term_or_wrapped": {
+      "type": "PREC",
+      "value": "term_or_wrapped",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_term"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_wrapped"
+          }
+        ]
+      }
+    },
+    "eqtex_product": {
+      "type": "PREC",
+      "value": "product",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_term"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\times"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_eqtex_term"
+            }
+          }
+        ]
+      }
+    },
+    "eqtex_fraction": {
+      "type": "PREC",
+      "value": "fraction",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\\frac"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_wrapped"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_wrapped"
+          }
+        ]
+      }
+    },
+    "eqtex_power": {
+      "type": "PREC_RIGHT",
+      "value": "power",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_term_or_wrapped"
+          },
+          {
+            "type": "STRING",
+            "value": "^"
+          },
+          {
+            "type": "FIELD",
+            "name": "exponent",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_eqtex_term_or_wrapped"
+            }
+          }
+        ]
+      }
+    },
+    "eqtex_equations": {
+      "type": "PREC_RIGHT",
+      "value": "equations",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_eqtex_expression"
+          }
+        ]
+      }
     },
     "_argument": {
       "type": "CHOICE",
@@ -600,7 +678,54 @@
     }
   ],
   "conflicts": [],
-  "precedences": [],
+  "precedences": [
+    [
+      {
+        "type": "STRING",
+        "value": "brackets"
+      },
+      {
+        "type": "STRING",
+        "value": "wrapped"
+      },
+      {
+        "type": "STRING",
+        "value": "term_or_wrapped"
+      },
+      {
+        "type": "STRING",
+        "value": "power"
+      },
+      {
+        "type": "STRING",
+        "value": "fraction"
+      },
+      {
+        "type": "STRING",
+        "value": "product"
+      },
+      {
+        "type": "STRING",
+        "value": "sum"
+      },
+      {
+        "type": "STRING",
+        "value": "term"
+      },
+      {
+        "type": "STRING",
+        "value": "component"
+      },
+      {
+        "type": "STRING",
+        "value": "expression"
+      },
+      {
+        "type": "STRING",
+        "value": "equations"
+      }
+    ]
+  ],
   "externals": [
     {
       "type": "SYMBOL",

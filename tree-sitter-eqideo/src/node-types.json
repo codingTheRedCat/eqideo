@@ -155,7 +155,15 @@
       "required": true,
       "types": [
         {
-          "type": "eqtex_equasion",
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
           "named": true
         },
         {
@@ -190,13 +198,127 @@
     }
   },
   {
-    "type": "eqtex_equasion",
+    "type": "eqtex_brackets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
+          "type": "eqtex_power",
+          "named": true
+        },
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_sum",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_equations",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
+          "type": "eqtex_power",
+          "named": true
+        },
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_sum",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "natural",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_fraction",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
         {
           "type": "eqtex_power",
           "named": true
@@ -236,6 +358,18 @@
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "eqtex_brackets",
+            "named": true
+          },
+          {
+            "type": "eqtex_equations",
+            "named": true
+          },
+          {
+            "type": "eqtex_fraction",
+            "named": true
+          },
           {
             "type": "eqtex_power",
             "named": true
@@ -280,6 +414,18 @@
       "required": true,
       "types": [
         {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
           "type": "eqtex_power",
           "named": true
         },
@@ -319,6 +465,18 @@
       "required": true,
       "types": [
         {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
+          "type": "eqtex_power",
+          "named": true
+        },
+        {
           "type": "eqtex_symbol",
           "named": true
         },
@@ -346,8 +504,16 @@
         "required": false,
         "types": [
           {
-            "type": "-",
-            "named": false
+            "type": "eqtex_brackets",
+            "named": true
+          },
+          {
+            "type": "eqtex_fraction",
+            "named": true
+          },
+          {
+            "type": "eqtex_power",
+            "named": true
           },
           {
             "type": "eqtex_product",
@@ -376,6 +542,18 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
+          "type": "eqtex_power",
+          "named": true
+        },
         {
           "type": "eqtex_product",
           "named": true
@@ -480,6 +658,14 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
     "type": "*",
     "named": false
   },
@@ -504,7 +690,19 @@
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\frac",
+    "named": false
+  },
+  {
     "type": "\\times",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

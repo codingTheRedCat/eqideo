@@ -39,59 +39,60 @@ module.exports = grammar({
             choice(";", $.eol),
         ),
 
-        eqtex: $ => seq("$$", $._eqtex_statement, "$$"),
+        eqtex: $ => seq("$$", $._eqtex_expression, "$$"),
         eqtex_char: $ => /[A-Za-z0-9]/,
         eqtex_text: $ => /[A-Za-z]+/,
+        eqtex_symbol: $ => seq($.eqtex_text,
+            optional(seq("_", field("subscript", choice($.eqtex_char, seq("{", $.eqtex_text, "}"))))),
+        ),
 
-        _eqtex_statement: $ => choice(
-            $._eqtex_expression,
-            $.eqtex_equasion,
-        ),
-        _eqtex_expression: $ => choice(
+        _eqtex_term: $ => prec("term", choice(
             $._number,
-            $.eqtex_sum,
-            $.eqtex_product,
             $.eqtex_symbol,
-            $.eqtex_power
-        ),
-        _eqtex_term: $ => choice(
-            $._number,
-            $.eqtex_symbol
-        ),
-        _eqtex_factor: $ => choice(
-            $._number,
-            $.eqtex_symbol
-        ),
-        _eqtex_component: $ => choice(
-            $._number,
+            $.eqtex_brackets,
+            $.eqtex_power,
+            $.eqtex_fraction,
+        )),
+        _eqtex_component: $ => prec("component", choice(
+            $._eqtex_term,
             $.eqtex_product,
-            $.eqtex_symbol
-        ),
-        eqtex_sum: $ => seq(
+        )),
+        _eqtex_expression: $ => prec("expression", choice(
+            $._eqtex_component,
+            $._eqtex_wrapped,
+            $.eqtex_sum,
+            $.eqtex_equations,
+        )),
+        eqtex_brackets: $ => prec("brackets", choice(
+            seq("(", $._eqtex_expression, ")"),
+            seq("[", $._eqtex_expression, "]"),
+        )),
+        _eqtex_wrapped: $ => prec("wrapped", seq("{", $._eqtex_expression, "}")),
+
+        eqtex_sum: $ => prec("sum", seq(
             choice(
                 seq("-", field("opposite", $._eqtex_component)),
                 $._eqtex_component
             ), repeat1(choice(
-                seq("-", field("opposite", "-", $._eqtex_component)),
+                seq("-", field("opposite", $._eqtex_component)),
                 seq("+", $._eqtex_component)
-            ))),
-        _term_or_wrapped: $ => choice(
+            )))),
+        _eqtex_term_or_wrapped: $ => prec("term_or_wrapped", choice(
             $._eqtex_term,
-            seq("{", $._eqtex_expression, "}"),
-        ),
-        eqtex_product: $ => seq($._eqtex_factor, optional(choice("*", "\\times")), repeat1($._eqtex_factor)),
-        eqtex_power: $ => prec.right(seq($._term_or_wrapped, "^", field("exponent", $._term_or_wrapped))),
-        eqtex_symbol: $ => seq($.eqtex_text,
-            optional(seq("_", field("subscript", choice(
-            $.eqtex_char,
-            seq("{", $.eqtex_text, "}"),
-        )))),
-        ),
-        eqtex_equasion: $ => seq($._eqtex_expression, "=", $._eqtex_expression),
-
+            $._eqtex_wrapped,
+        )),
+        eqtex_product: $ => prec("product", seq($._eqtex_term, optional(choice("*", "\\times")), repeat1($._eqtex_term))),
+        eqtex_fraction: $ => prec("fraction", seq("\\frac", $._eqtex_wrapped, $._eqtex_wrapped)),
+        eqtex_power: $ => prec.right("power", seq($._eqtex_term_or_wrapped, "^", field("exponent", $._eqtex_term_or_wrapped))),
+        eqtex_equations: $ => prec.right("equations", seq($._eqtex_expression, "=", $._eqtex_expression)),
+    
         _argument: $ => choice($.natural, $.integer, $.floating_point, $.enum_value, $.duration, $.variable),
     },
 
     extras: $ => [$._newline, $._whitespace],
+
+    precedences: $ => [
+        ["brackets", "wrapped", "term_or_wrapped", "power", "fraction", "product", "sum", "term", "component", "expression", "equations"]
+    ],
 });
 
