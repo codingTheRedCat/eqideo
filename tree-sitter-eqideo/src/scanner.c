@@ -24,20 +24,20 @@ void debug(const char *format, ...) {
 
 enum TokenType { COMMENT, EOL, NEWLINE };
 
-void *tree_sitter_eqidio_external_scanner_create() { return malloc(1); }
+void *tree_sitter_eqideo_external_scanner_create() { return malloc(1); }
 
-void tree_sitter_eqidio_external_scanner_destroy(void *payload) {
+void tree_sitter_eqideo_external_scanner_destroy(void *payload) {
   free(payload);
 }
 
-unsigned tree_sitter_eqidio_external_scanner_serialize(void *payload,
+unsigned tree_sitter_eqideo_external_scanner_serialize(void *payload,
                                                        char *buffer) {
     bool *scanner = (bool *)payload;
   buffer[0] = *scanner;
   return 1;
 }
 
-void tree_sitter_eqidio_external_scanner_deserialize(void *payload,
+void tree_sitter_eqideo_external_scanner_deserialize(void *payload,
                                                      const char *buffer,
                                                      unsigned length) {
   bool *scanner = (bool *)payload;
@@ -50,7 +50,7 @@ void tree_sitter_eqidio_external_scanner_deserialize(void *payload,
 
 void ladvance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-bool tree_sitter_eqidio_external_scanner_scan(void *payload, TSLexer *lexer,
+bool tree_sitter_eqideo_external_scanner_scan(void *payload, TSLexer *lexer,
                                               const bool *valid_symbols) {
   bool *scanner = (bool *)payload;
   if (valid_symbols[EOL] && !*scanner &&
