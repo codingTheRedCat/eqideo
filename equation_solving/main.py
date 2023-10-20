@@ -21,4 +21,4 @@ tree = parser.parse(bytes("""
                           $$
 """, "utf8"))
 
-print(tree.root_node.type)
+print(tree.root_node.sexp())
