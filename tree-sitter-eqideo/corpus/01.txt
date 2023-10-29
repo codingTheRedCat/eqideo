@@ -1,0 +1,36 @@
+==================
+Test 1
+==================
+$$
+-[(a b + c - d)^{-22}]a = 0 = x
+$$
+
+---
+
+(source_file
+      (eqtex
+        (eqtex_equations
+          (eqtex_opposite
+            (eqtex_product
+              (eqtex_brackets
+                (eqtex_power
+                  (eqtex_brackets
+                    (eqtex_sum
+                      (eqtex_product
+                        (eqtex_symbol
+                          (eqtex_text))
+                        (eqtex_symbol
+                          (eqtex_text)))
+                      (eqtex_symbol
+                        (eqtex_text))
+                      (eqtex_opposite
+                        (eqtex_symbol
+                          (eqtex_text)))))
+                  (eqtex_symbol
+                    (eqtex_number))))
+              (eqtex_symbol
+                (eqtex_text))))
+          (eqtex_symbol
+            (eqtex_number))
+          (eqtex_symbol
+            (eqtex_text)))))
