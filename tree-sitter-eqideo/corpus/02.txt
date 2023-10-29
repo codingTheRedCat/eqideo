@@ -1,0 +1,21 @@
+===========
+Test 2
+===========
+
+$$
+2x = -x
+$$
+
+---
+
+(source_file
+      (eqtex
+        (eqtex_equations
+          (eqtex_product
+            (eqtex_symbol
+              (eqtex_number))
+            (eqtex_symbol
+              (eqtex_text)))
+          (eqtex_opposite
+            (eqtex_symbol
+              (eqtex_text))))))
