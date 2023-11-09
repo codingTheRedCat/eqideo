@@ -55,6 +55,7 @@ module.exports = grammar({
         _eqtex_powerable: $ => choice(
             $.eqtex_symbol,
             $.eqtex_brackets,
+            $.eqtex_root,
         ),
 
         eqtex_product: $ => seq($._eqtex_productable, repeat1($._eqtex_productable)),
@@ -64,6 +65,7 @@ module.exports = grammar({
             $.eqtex_brackets,
             $.eqtex_power,
             $.eqtex_fraction,
+            $.eqtex_root,
         ),
 
         eqtex_opposite: $ => prec(2, seq("-", $._eqtex_oppositable)),
@@ -74,6 +76,7 @@ module.exports = grammar({
             $.eqtex_power,
             $.eqtex_product,
             $.eqtex_fraction,
+            $.eqtex_root,
         ),
 
         eqtex_sum: $ => prec(1, seq(choice($._eqtex_oppositable, $.eqtex_opposite), repeat1(choice(
@@ -82,6 +85,11 @@ module.exports = grammar({
         )))),
 
         eqtex_fraction: $ => seq("\\frac", "{", $._eqtex_expression, "}", "{", $._eqtex_expression, "}"),
+
+        eqtex_root: $ => choice(
+            seq("\\sqrt", "{", $._eqtex_expression, "}"),
+            seq("\\root", "{", $._eqtex_expression, "}", "{", $._eqtex_expression, "}"),
+        ),
 
         eqtex_brackets: $ => choice(
             seq("(", $._eqtex_expression, ")"),
@@ -98,6 +106,7 @@ module.exports = grammar({
             $.eqtex_opposite,
             $.eqtex_sum,
             $.eqtex_fraction,
+            $.eqtex_root,
         ),
 
         _eqtex_expression: $ => choice(
@@ -109,6 +118,7 @@ module.exports = grammar({
             $.eqtex_sum,
             $.eqtex_equations,
             $.eqtex_fraction,
+            $.eqtex_root,
         ),
 
     },

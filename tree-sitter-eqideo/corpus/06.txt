@@ -1,0 +1,24 @@
+=========
+Test 6
+=========
+
+$$
+\root{3}{\frac{3}{4}} + \sqrt {x}
+$$
+
+---
+
+(source_file
+      (eqtex
+        (eqtex_sum
+          (eqtex_root
+            (eqtex_symbol
+              (eqtex_number))
+            (eqtex_fraction
+              (eqtex_symbol
+                (eqtex_number))
+              (eqtex_symbol
+                (eqtex_number))))
+          (eqtex_root
+            (eqtex_symbol
+              (eqtex_text))))))

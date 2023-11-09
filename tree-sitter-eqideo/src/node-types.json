@@ -171,6 +171,10 @@
           "named": true
         },
         {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
           "type": "eqtex_sum",
           "named": true
         },
@@ -214,6 +218,10 @@
           "named": true
         },
         {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
           "type": "eqtex_sum",
           "named": true
         },
@@ -250,6 +258,10 @@
         },
         {
           "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_root",
           "named": true
         },
         {
@@ -296,6 +308,10 @@
           "named": true
         },
         {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
           "type": "eqtex_sum",
           "named": true
         },
@@ -328,6 +344,10 @@
         },
         {
           "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_root",
           "named": true
         },
         {
@@ -370,6 +390,10 @@
           "named": true
         },
         {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
           "type": "eqtex_sum",
           "named": true
         },
@@ -398,6 +422,57 @@
         },
         {
           "type": "eqtex_power",
+          "named": true
+        },
+        {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
+          "type": "eqtex_symbol",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "eqtex_root",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "eqtex_brackets",
+          "named": true
+        },
+        {
+          "type": "eqtex_equations",
+          "named": true
+        },
+        {
+          "type": "eqtex_fraction",
+          "named": true
+        },
+        {
+          "type": "eqtex_opposite",
+          "named": true
+        },
+        {
+          "type": "eqtex_power",
+          "named": true
+        },
+        {
+          "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_root",
+          "named": true
+        },
+        {
+          "type": "eqtex_sum",
           "named": true
         },
         {
@@ -433,6 +508,10 @@
         },
         {
           "type": "eqtex_product",
+          "named": true
+        },
+        {
+          "type": "eqtex_root",
           "named": true
         },
         {
@@ -541,6 +620,14 @@
   },
   {
     "type": "\\frac",
+    "named": false
+  },
+  {
+    "type": "\\root",
+    "named": false
+  },
+  {
+    "type": "\\sqrt",
     "named": false
   },
   {

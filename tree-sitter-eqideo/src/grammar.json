@@ -309,6 +309,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_brackets"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_root"
         }
       ]
     },
@@ -346,6 +350,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_fraction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_root"
         }
       ]
     },
@@ -388,6 +396,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_fraction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_root"
         }
       ]
     },
@@ -468,6 +480,65 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "eqtex_root": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\sqrt"
+            },
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_eqtex_expression"
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\root"
+            },
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_eqtex_expression"
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            },
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_eqtex_expression"
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
         }
       ]
     },
@@ -565,6 +636,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_fraction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_root"
         }
       ]
     },
@@ -602,6 +677,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_fraction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_root"
         }
       ]
     }
