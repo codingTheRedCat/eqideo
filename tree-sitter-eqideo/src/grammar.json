@@ -342,6 +342,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_power"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_fraction"
         }
       ]
     },
@@ -380,6 +384,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_product"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_fraction"
         }
       ]
     },
@@ -429,6 +437,39 @@
           }
         ]
       }
+    },
+    "eqtex_fraction": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\frac"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_eqtex_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "eqtex_brackets": {
       "type": "CHOICE",
@@ -520,6 +561,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_sum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_fraction"
         }
       ]
     },
@@ -553,6 +598,10 @@
         {
           "type": "SYMBOL",
           "name": "eqtex_equations"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "eqtex_fraction"
         }
       ]
     }

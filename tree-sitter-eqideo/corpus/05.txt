@@ -1,0 +1,27 @@
+=========
+Test 5
+=========
+
+$$\frac{5}{7} a + \frac{x^{x}}{0}$$
+
+---
+
+(source_file
+      (eqtex
+        (eqtex_sum
+          (eqtex_product
+            (eqtex_fraction
+              (eqtex_symbol
+                (eqtex_number))
+              (eqtex_symbol
+                (eqtex_number)))
+            (eqtex_symbol
+              (eqtex_text)))
+          (eqtex_fraction
+            (eqtex_power
+              (eqtex_symbol
+                (eqtex_text))
+              (eqtex_symbol
+                (eqtex_text)))
+            (eqtex_symbol
+              (eqtex_number))))))

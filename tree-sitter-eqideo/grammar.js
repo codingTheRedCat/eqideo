@@ -63,6 +63,7 @@ module.exports = grammar({
             $.eqtex_symbol,
             $.eqtex_brackets,
             $.eqtex_power,
+            $.eqtex_fraction,
         ),
 
         eqtex_opposite: $ => prec(2, seq("-", $._eqtex_oppositable)),
@@ -71,13 +72,16 @@ module.exports = grammar({
             $.eqtex_symbol,
             $.eqtex_brackets,
             $.eqtex_power,
-            $.eqtex_product
+            $.eqtex_product,
+            $.eqtex_fraction,
         ),
 
         eqtex_sum: $ => prec(1, seq(choice($._eqtex_oppositable, $.eqtex_opposite), repeat1(choice(
             seq("+", $._eqtex_oppositable),
             $.eqtex_opposite,
         )))),
+
+        eqtex_fraction: $ => seq("\\frac", "{", $._eqtex_expression, "}", "{", $._eqtex_expression, "}"),
 
         eqtex_brackets: $ => choice(
             seq("(", $._eqtex_expression, ")"),
@@ -93,6 +97,7 @@ module.exports = grammar({
             $.eqtex_product,
             $.eqtex_opposite,
             $.eqtex_sum,
+            $.eqtex_fraction,
         ),
 
         _eqtex_expression: $ => choice(
@@ -103,6 +108,7 @@ module.exports = grammar({
             $.eqtex_opposite,
             $.eqtex_sum,
             $.eqtex_equations,
+            $.eqtex_fraction,
         ),
 
     },
