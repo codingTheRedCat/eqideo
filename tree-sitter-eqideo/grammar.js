@@ -12,7 +12,7 @@ module.exports = grammar({
         _statement: $ => choice($.command, $.environment_command, $.eqtex),
 
         _whitespace: $ => /[ \t]+/,
-        identifier: $ => /[a-zA-Z][a-zA-Z0-9_]*/,
+        identifier: $ => /[^0-9\{}()\[\]<>\-+=,!@#$%^&*][^\{}()\[\]<>\-+=,!@#$%^&*]*/,
         integer: $ => /\[+-]?[0-9]+/,
         floating_point: $ => /[-+]?[0-9]*(\.?[0-9]+|([eE][-+]?[0-9]+)){1,2}/,
 
