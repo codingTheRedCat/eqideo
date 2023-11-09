@@ -1,0 +1,16 @@
+=========
+Test 3
+=========
+
+$$-x + c$$
+
+---
+
+(source_file
+      (eqtex
+        (eqtex_sum
+          (eqtex_opposite
+            (eqtex_symbol
+              (eqtex_text)))
+          (eqtex_symbol
+            (eqtex_text)))))

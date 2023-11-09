@@ -347,7 +347,7 @@
     },
     "eqtex_opposite": {
       "type": "PREC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -384,38 +384,51 @@
       ]
     },
     "eqtex_sum": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_eqtex_oppositable"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "+"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_eqtex_oppositable"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_eqtex_oppositable"
               },
               {
                 "type": "SYMBOL",
                 "name": "eqtex_opposite"
               }
             ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "+"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_eqtex_oppositable"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "eqtex_opposite"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "eqtex_brackets": {
       "type": "CHOICE",
